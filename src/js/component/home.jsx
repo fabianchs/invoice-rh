@@ -17,6 +17,7 @@ const Home = () => {
 	function createInvoice() {
 		let list_invoice = product.map((element, index) => (
 			<div key={index} className="container-fluid">
+				<p>&nbsp;</p>
 				<span className={p_style}>{element.toUpperCase()}</span>
 				<br className={p_style}></br>
 				<span className={p_style}>
@@ -27,7 +28,6 @@ const Home = () => {
 				<span className={p_style}>
 					PRECIO UNITARIO: &nbsp; &#8353;{price[index]}
 				</span>
-				<p className={p_style}>&nbsp;</p>
 			</div>
 		));
 
@@ -49,7 +49,6 @@ const Home = () => {
 		list_invoice.unshift(
 			<div className="container-fluid">
 				<p className={p_style}>FACTURA PROFORMA</p>
-				<p className={p_style}>&nbsp;</p>
 			</div>
 		);
 
