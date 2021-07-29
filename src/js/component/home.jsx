@@ -21,7 +21,7 @@ const Home = () => {
 		setPrice(elements[1]);
 		setAmount(elements[2]);
 
-		console.log(product, price, amount);
+		createInputs();
 	}
 
 	function deleteFromArrays() {
@@ -35,7 +35,7 @@ const Home = () => {
 		setPrice(elements[1]);
 		setAmount(elements[2]);
 
-		console.log(product, price, amount);
+		createInputs();
 	}
 
 	function createInputs() {
@@ -74,8 +74,10 @@ const Home = () => {
 		));
 
 		setRenderedEditor(list_inputs);
-		return list_inputs;
 	}
+	useEffect(() => {
+		createInputs();
+	}, []);
 
 	return (
 		<div className="text-center mt-5">
@@ -90,17 +92,8 @@ const Home = () => {
 								<div className="h5 col-3">Precio Unitario</div>
 								<div className="h5 col-3">Cantidad</div>
 							</div>
-							{createInputs}
+							{renderedEditor}
 							<div className="row container-fluid d-flex justify-content-between">
-								<div className="col-3 p-1">
-									<Input
-										type="text"
-										name="text"
-										placeholder="Cantidad"
-										className="border-dark bg-transparent"
-										defaultValue=""
-									/>
-								</div>
 								<div className="row container-fluid d-flex justify-content-end m-0 p-0">
 									<button
 										className="btn btn-success"
@@ -118,19 +111,6 @@ const Home = () => {
 						</div>
 						<div className="row col-6"></div>
 					</div>
-					<p>
-						<img src={rigoImage} />
-					</p>
-					<a href="#" className="btn btn-success">
-						If you see this green but ton... bootstrap is working
-					</a>
-					<p>
-						Made by{" "}
-						<a href="http://www.4geeksacademy.com">
-							4Geeks Academy
-						</a>
-						, with love!
-					</p>
 				</div>
 			</div>
 		</div>
