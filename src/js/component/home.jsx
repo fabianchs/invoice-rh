@@ -164,7 +164,7 @@ const Home = () => {
 					<h1>PROFORMAS</h1>
 					<hr></hr>
 					<div className="row p-1">
-						<div className="row col-6">
+						<div className="row col-xl-6 col-lg-6 col-md-8 col-sm-12">
 							<div className="row container-fluid d-flex justify-content-between">
 								<div className="h5 col-6">Producto</div>
 								<div className="h5 col-3">Cantidad</div>
@@ -199,7 +199,7 @@ const Home = () => {
 								</div>
 							</div>
 						</div>
-						<div className="row col-6 ">
+						<div className="row col-xl-6 col-lg-6 col-md-4 col-sm-12 ">
 							<div className="border border-dark m-1">
 								{renderedInvoice}
 							</div>
