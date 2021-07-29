@@ -18,16 +18,16 @@ const Home = () => {
 		let list_invoice = product.map((element, index) => (
 			<div key={index} className="container-fluid">
 				<span className={p_style}>{element.toUpperCase()}</span>
-				<br></br>
+				<br className={p_style}></br>
 				<span className={p_style}>
 					CANTIDAD: &nbsp;
 					{amount[index]}
 				</span>
-				<br></br>
+				<br className={p_style}></br>
 				<span className={p_style}>
 					PRECIO UNITARIO: &nbsp; &#8353;{price[index]}
 				</span>
-				<br></br>
+				<p className={p_style}>&nbsp;</p>
 			</div>
 		));
 
@@ -49,6 +49,7 @@ const Home = () => {
 		list_invoice.unshift(
 			<div className="container-fluid">
 				<p className={p_style}>FACTURA PROFORMA</p>
+				<p className={p_style}>&nbsp;</p>
 			</div>
 		);
 
