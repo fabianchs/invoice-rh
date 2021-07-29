@@ -6,20 +6,71 @@ import rigoImage from "../../img/rigo-baby.jpg";
 //create your first component
 const Home = () => {
     const [product, setProduct] = useState([""]);
+    const [price, setPrice] = useState(["0"]);
     const [amount, setAmount] = useState(["1"]);
+    const [renderedEditor, setRenderedEditor] = useState("");
 
     function addToArrays() {
-        let aux_credits = credits;
-        let aux_grades = grades;
+        let elements = [product, price, amount];
 
-        aux_credits.push("");
-        aux_grades.push("");
+        elements[0].push("");
+        elements[1].push("0");
+        elements[2].push("1");
 
-        setCredits(aux_credits);
-        setGrades(aux_grades);
+        setProduct(elements[0]);
+        setPrice(elements[1]);
+        setAmount(elements[2]);
 
-        createInputs();
+        console.log(product, price, amount);
     }
+
+    function deleteFromArrays() {
+        let elements = [product, price, amount];
+
+        elements[0].splice(-1, 1);
+        elements[1].splice(-1, 1);
+        elements[2].splice(-1, 1);
+
+        setProduct(elements[0]);
+        setPrice(elements[1]);
+        setAmount(elements[2]);
+
+        console.log(product, price, amount);
+    }
+
+    function createInputs() {
+        const list_inputs = product.map((element, index) => (
+            <div className="row" key={index}>
+                <div className="col-6" key={index.toString + "credits"}>
+                    <Input
+                        type="text"
+                        name="text"
+                        defaultValue={element}
+                        placeholder="Credits"
+                        className="m-1 border-dark"
+                        onChange={() => {
+                            editCredit(event, index);
+                        }}
+                    />
+                </div>
+                <div className="col-6" key={index.toString + "grades"}>
+                    <Input
+                        type="text"
+                        name="text"
+                        placeholder="Grade"
+                        className="m-1 border-dark"
+                        defaultValue={grades[index]}
+                        onChange={() => {
+                            editGrade(event, index);
+                        }}
+                    />
+                </div>
+            </div>
+        ));
+
+        setRenderedEditor(list_inputs);
+    }
+
 
     return (
         <div className="text-center mt-5">
@@ -61,6 +112,19 @@ const Home = () => {
                                         className="border-dark bg-transparent"
                                         defaultValue=""
                                     />
+                                </div>
+                                <div className="row container-fluid d-flex justify-content-end m-0 p-0">
+                                    <button
+                                        className="btn btn-success"
+                                        onClick={() => addToArrays()}>
+                                        +
+									</button>
+									&nbsp;
+									<button
+                                        className="btn btn-success"
+                                        onClick={() => deleteFromArrays()}>
+                                        -
+									</button>
                                 </div>
                             </div>
                         </div>
