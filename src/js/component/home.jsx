@@ -111,7 +111,8 @@ const Home = () => {
 		setPrice(elements[2]);
 
 		createInputs();
-	}
+    }
+    //hello
 
 	function createInputs() {
 		const list_inputs = product.map((element, index) => (
