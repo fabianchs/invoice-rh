@@ -8,6 +8,8 @@ const Home = () => {
 	const [product, setProduct] = useState([""]);
 	const [amount, setAmount] = useState(["1"]);
 	const [price, setPrice] = useState(["0"]);
+	const [name, setName] = useState("");
+	const [vehicle, setVehicle] = useState("");
 
 	const [renderedEditor, setRenderedEditor] = useState("");
 	const [renderedInvoice, setRenderedInvoice] = useState("");
@@ -17,19 +19,19 @@ const Home = () => {
 	function createInvoice() {
 		let list_invoice = product.map((element, index) => (
 			<div key={index} className="container-fluid">
-				<p>&nbsp;</p>
 				<span className={p_style}>{element.toUpperCase()}</span>
-				<br className={p_style}></br>
+
 				<span className={p_style}>
 					CANTIDAD: &nbsp;
 					{amount[index]}
 				</span>
-				<br className={p_style}></br>
 				<span className={p_style}>
 					PRECIO UNITARIO: &nbsp; &#8353;{price[index]}
 				</span>
+				<span className={p_style}>&nbsp;</span>
 			</div>
 		));
+		//<br className={p_style}></br>
 
 		let counter = 0;
 
@@ -46,8 +48,22 @@ const Home = () => {
 		);
 
 		list_invoice.push(final_price);
+
 		list_invoice.unshift(
 			<div className="container-fluid">
+				<span className={p_style}>
+					PARA: &nbsp; {name.toUpperCase()}
+				</span>
+				<span className={p_style}>
+					VEHÍCULO: &nbsp; {vehicle.toUpperCase()}
+				</span>
+				<span className={p_style}>&nbsp;</span>
+			</div>
+		);
+
+		list_invoice.unshift(
+			<div className="container-fluid">
+				<p className={p_style}>&nbsp;</p>
 				<p className={p_style}>FACTURA PROFORMA</p>
 			</div>
 		);
@@ -111,8 +127,7 @@ const Home = () => {
 		setPrice(elements[2]);
 
 		createInputs();
-    }
-    //hello
+	}
 
 	function createInputs() {
 		const list_inputs = product.map((element, index) => (
@@ -166,6 +181,36 @@ const Home = () => {
 					<hr></hr>
 					<div className="row p-1">
 						<div className="row col-xl-6 col-lg-6 col-md-8 col-sm-12">
+							<div className="row container-fluid d-flex justify-content-between">
+								<div className="h5 col-6">Proforma para</div>
+								<div className="h5 col-6">Vehículo</div>
+							</div>
+							<div className="row container-fluid d-flex justify-content-between m-1">
+								<div className="col-6">
+									<Input
+										type="text"
+										name="text"
+										placeholder="Nombre del cliente"
+										className="border-dark bg-transparent"
+										defaultValue={name}
+										onChange={() => {
+											setName(event.target.value);
+										}}
+									/>
+								</div>
+								<div className="col-6">
+									<Input
+										type="text"
+										name="text"
+										placeholder="Vehículo"
+										className="border-dark bg-transparent"
+										defaultValue={vehicle}
+										onChange={() => {
+											setVehicle(event.target.value);
+										}}
+									/>
+								</div>
+							</div>
 							<div className="row container-fluid d-flex justify-content-between">
 								<div className="h5 col-6">Producto</div>
 								<div className="h5 col-3">Cantidad</div>
