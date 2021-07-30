@@ -41,9 +41,15 @@ const Home = () => {
 
 		let final = [counter.toFixed(2)];
 
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+
 		let final_price = (
 			<div className="container-fluid">
-				<p className={p_style}>TOTAL: &nbsp; &#8353;{final}</p>
+				<p className={p_style}>
+					TOTAL: &nbsp; &#8353;{numberWithCommas(final)}
+				</p>
 			</div>
 		);
 
