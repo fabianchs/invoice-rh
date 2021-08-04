@@ -26,7 +26,10 @@ const Home = () => {
 					{amount[index]}
 				</span>
 				<span className={p_style}>
-					PRECIO UNITARIO: &nbsp; &#8353;{price[index]}
+					PRECIO: &nbsp; &#8353;
+					{(
+						parseFloat(price[index]) * parseFloat(amount[index])
+					).toFixed(2)}
 				</span>
 				<span className={p_style}>&nbsp;</span>
 			</div>
