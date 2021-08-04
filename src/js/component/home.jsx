@@ -115,7 +115,7 @@ const Home = () => {
 
 		elements[0].push("");
 		elements[1].push("1");
-		elements[2].push("0");
+		elements[2].push("");
 
 		setProduct(elements[0]);
 		setAmount(elements[1]);
