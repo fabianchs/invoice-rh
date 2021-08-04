@@ -7,7 +7,7 @@ import rigoImage from "../../img/rigo-baby.jpg";
 const Home = () => {
 	const [product, setProduct] = useState([""]);
 	const [amount, setAmount] = useState(["1"]);
-	const [price, setPrice] = useState(["0"]);
+	const [price, setPrice] = useState([""]);
 	const [name, setName] = useState("");
 	const [vehicle, setVehicle] = useState("");
 
@@ -17,6 +17,10 @@ const Home = () => {
 	const p_style = "w-100 m-0 p-0 d-flex justify-content-start";
 
 	function createInvoice() {
+		function numberWithCommas(x) {
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+
 		let list_invoice = product.map((element, index) => (
 			<div key={index} className="container-fluid">
 				<span className={p_style}>{element.toUpperCase()}</span>
@@ -27,9 +31,11 @@ const Home = () => {
 				</span>
 				<span className={p_style}>
 					PRECIO: &nbsp; &#8353;
-					{(
-						parseFloat(price[index]) * parseFloat(amount[index])
-					).toFixed(2)}
+					{numberWithCommas(
+						(
+							parseFloat(price[index]) * parseFloat(amount[index])
+						).toFixed(2)
+					)}
 				</span>
 				<span className={p_style}>&nbsp;</span>
 			</div>
@@ -43,10 +49,6 @@ const Home = () => {
 		}
 
 		let final = [counter.toFixed(2)];
-
-		function numberWithCommas(x) {
-			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-		}
 
 		let final_price = (
 			<div className="container-fluid">
