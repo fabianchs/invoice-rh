@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Input } from "reactstrap";
+import { Input, Table } from "reactstrap";
 //include images into your bundle
 import rigoImage from "../../img/rigo-baby.jpg";
 
@@ -261,6 +261,56 @@ const Home = () => {
 								{renderedInvoice}
 							</div>
 						</div>
+					</div>
+					<div className="w-50">
+						<div className="row">
+							<div className="col-6">
+								<div className="d-flex justify-content-start">
+									IMPORTACIONES HERRERA
+								</div>
+								<div className="d-flex justify-content-start">
+									FACTURA PROFORMA
+								</div>
+								<div className="d-flex justify-content-start">
+									PARA: PEDRO MUÑOZ
+								</div>
+							</div>
+							<div className="col-6">
+								<div className="d-flex justify-content-start">
+									VENDEDOR: RANDALL CHACÓN
+								</div>
+								<div className="d-flex justify-content-start">
+									CONTACTO: 8367-3383
+								</div>
+								<div className="d-flex justify-content-start">
+									FECHA: SÁBADO 7 DE AGOSTO DE 2021
+								</div>
+							</div>
+						</div>
+
+						<Table
+							responsive
+							bordered
+							size="sm"
+							className="text-center">
+							<thead>
+								<tr>
+									<th>CANTIDAD</th>
+									<th>ARTÍCULO</th>
+									<th>PRECIO</th>
+									<th>TOTAL</th>
+								</tr>
+							</thead>
+							<tr>
+								<td>2</td>
+								<td>
+									INYECTORES PARA AUTO DIFERENTE INYECTORES
+									PARA AUTO DIFERENTE
+								</td>
+								<td>20 000</td>
+								<td>40 000</td>
+							</tr>
+						</Table>
 					</div>
 				</div>
 			</div>
