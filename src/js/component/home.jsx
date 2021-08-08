@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import * as htmlToImage from "html-to-image";
+import download from "downloadjs";
 import { Input, Table } from "reactstrap";
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
@@ -14,7 +14,30 @@ const Home = () => {
 	const [renderedEditor, setRenderedEditor] = useState("");
 	const [renderedInvoice, setRenderedInvoice] = useState("");
 
-	const p_style = "w-100 m-0 p-0 d-flex justify-content-start";
+	const [create_image, setCreateImage] = useState("");
+
+	const onButtonClick = () => {
+		let domElement = document.getElementById("image-node");
+		htmlToImage
+			.toPng(domElement)
+			.then(function(dataUrl) {
+				setCreateImage(<img src={dataUrl}></img>);
+				//download(dataUrl, "image.jpeg");
+			})
+			.catch(function(error) {
+				console.error("oops, something went wrong!", error);
+			});
+	};
+
+	function restoreAll() {
+		setProduct([""]);
+		setAmount(["1"]);
+		setPrice([""]);
+		setName([""]);
+		setVehicle([""]);
+
+		createInputs();
+	}
 
 	function createInvoice() {
 		function numberWithCommas(x) {
@@ -234,7 +257,16 @@ const Home = () => {
 		<div className="text-center mt-5">
 			<div className="row container-fluid d-flex justify-content-center">
 				<div className="col-10" id="container_bg">
-					<h1>PROFORMAS</h1>
+					<div className="row d-flex justify-content-between">
+						<h1>PROFORMAS</h1>
+						&nbsp;
+						<button
+							className="btn btn-info"
+							onClick={() => onButtonClick()}>
+							<span className="h2">CREAR IMAGEN</span>
+						</button>
+					</div>
+
 					<hr></hr>
 					<div className="row p-1">
 						<div className="row col-xl-6 col-lg-6 col-md-8 col-sm-12">
@@ -304,12 +336,17 @@ const Home = () => {
 						</div>
 						<div className="row col-xl-6 col-lg-6 col-md-4 col-sm-12 ">
 							<div className="m-1 p-1 w-100">
-								{renderedInvoice}
+								<div
+									className="m-0 p-0 bg-light container"
+									id="image-node">
+									{renderedInvoice}
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			<div>{create_image}</div>
 		</div>
 	);
 };
