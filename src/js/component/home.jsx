@@ -22,7 +22,7 @@ const Home = () => {
 			.toPng(domElement)
 			.then(function(dataUrl) {
 				setCreateImage(<img src={dataUrl}></img>);
-				//download(dataUrl, "image.jpeg");
+				download(dataUrl, "image.jpeg");
 			})
 			.catch(function(error) {
 				console.error("oops, something went wrong!", error);
@@ -256,7 +256,7 @@ const Home = () => {
 	return (
 		<div className="text-center mt-5">
 			<div className="row container-fluid d-flex justify-content-center">
-				<div className="col-10" id="container_bg">
+				<div className="col-11" id="container_bg">
 					<div className="row d-flex justify-content-between">
 						<h1>PROFORMAS</h1>
 						&nbsp;
@@ -346,7 +346,9 @@ const Home = () => {
 					</div>
 				</div>
 			</div>
-			<div>{create_image}</div>
+			<div className="row d-flex justify-content-center">
+				{create_image}
+			</div>
 		</div>
 	);
 };
