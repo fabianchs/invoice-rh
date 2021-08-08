@@ -22,25 +22,68 @@ const Home = () => {
 		}
 
 		let list_invoice = product.map((element, index) => (
-			<div key={index} className="container-fluid">
-				<span className={p_style}>{element.toUpperCase()}</span>
-
-				<span className={p_style}>
-					CANTIDAD: &nbsp;
-					{amount[index]}
-				</span>
-				<span className={p_style}>
-					PRECIO: &nbsp; &#8353;
+			<tr key={index}>
+				<td>{numberWithCommas(amount[index])}</td>
+				<td>{element.toUpperCase()}</td>
+				<td>&#8353;{numberWithCommas(price[index])}</td>
+				<td>
+					&#8353;
 					{numberWithCommas(
 						(
 							parseFloat(price[index]) * parseFloat(amount[index])
 						).toFixed(2)
 					)}
-				</span>
-				<span className={p_style}>&nbsp;</span>
-			</div>
+				</td>
+			</tr>
 		));
-		//<br className={p_style}></br>
+
+		let general_data = (
+			<div className="row">
+				<div className="col-6">
+					<div className="d-flex justify-content-start">
+						IMPORTACIONES HERRERA
+					</div>
+					<div className="d-flex justify-content-start">
+						FACTURA PROFORMA
+					</div>
+					<div className="d-flex justify-content-start">
+						PARA: {name.toLocaleUpperCase()}
+					</div>
+					<div className="d-flex justify-content-start">
+						VEHÍCULO: {vehicle.toUpperCase()}
+					</div>
+				</div>
+				<div className="col-6">
+					<div className="d-flex justify-content-start">
+						VENDEDOR: RANDALL CHACÓN
+					</div>
+					<div className="d-flex justify-content-start">
+						CONTACTO: 8367-3383
+					</div>
+					<div className="d-flex justify-content-start">
+						FECHA: {new Date().toLocaleDateString()}
+					</div>
+				</div>
+			</div>
+		);
+
+		let invoice_format = (
+			<Table
+				responsive
+				bordered
+				size="sm"
+				className="text-center mb-0 pb-0">
+				<thead>
+					<tr>
+						<th>CANTIDAD</th>
+						<th>ARTÍCULO</th>
+						<th>PRECIO</th>
+						<th>TOTAL</th>
+					</tr>
+				</thead>
+				{list_invoice}
+			</Table>
+		);
 
 		let counter = 0;
 
@@ -50,36 +93,39 @@ const Home = () => {
 
 		let final = [counter.toFixed(2)];
 
-		let final_price = (
-			<div className="container-fluid">
-				<p className={p_style}>
-					TOTAL: &nbsp; &#8353;{numberWithCommas(final)}
-				</p>
+		let final_prices_format = (
+			<div className="row m-0 p-0 d-flex justify-content-end">
+				<div className="col-6 m-0 p-0">
+					<Table
+						responsive
+						bordered
+						size="sm"
+						color="dark"
+						className="text-start ">
+						<tr>
+							<td className="fw-bold">
+								<span>
+									<strong>SUBTOTAL</strong>
+								</span>
+							</td>
+							<td>&#8353;{numberWithCommas(final)}</td>
+						</tr>
+						<tr>
+							<td className="fw-bold">
+								<span>
+									<strong>TOTAL</strong>
+								</span>
+							</td>
+							<td>&#8353;{numberWithCommas(final)}</td>
+						</tr>
+					</Table>
+				</div>
 			</div>
 		);
 
-		list_invoice.push(final_price);
+		let result = [general_data, invoice_format, final_prices_format];
 
-		list_invoice.unshift(
-			<div className="container-fluid">
-				<span className={p_style}>
-					PARA: &nbsp; {name.toUpperCase()}
-				</span>
-				<span className={p_style}>
-					VEHÍCULO: &nbsp; {vehicle.toUpperCase()}
-				</span>
-				<span className={p_style}>&nbsp;</span>
-			</div>
-		);
-
-		list_invoice.unshift(
-			<div className="container-fluid">
-				<p className={p_style}>&nbsp;</p>
-				<p className={p_style}>FACTURA PROFORMA</p>
-			</div>
-		);
-
-		setRenderedInvoice(list_invoice);
+		setRenderedInvoice(<div className="bg-light p-2">{result}</div>);
 	}
 
 	function editProduct(e, index) {
@@ -257,60 +303,10 @@ const Home = () => {
 							</div>
 						</div>
 						<div className="row col-xl-6 col-lg-6 col-md-4 col-sm-12 ">
-							<div className="border border-dark m-1">
+							<div className="m-1 p-1 w-100">
 								{renderedInvoice}
 							</div>
 						</div>
-					</div>
-					<div className="w-50">
-						<div className="row">
-							<div className="col-6">
-								<div className="d-flex justify-content-start">
-									IMPORTACIONES HERRERA
-								</div>
-								<div className="d-flex justify-content-start">
-									FACTURA PROFORMA
-								</div>
-								<div className="d-flex justify-content-start">
-									PARA: PEDRO MUÑOZ
-								</div>
-							</div>
-							<div className="col-6">
-								<div className="d-flex justify-content-start">
-									VENDEDOR: RANDALL CHACÓN
-								</div>
-								<div className="d-flex justify-content-start">
-									CONTACTO: 8367-3383
-								</div>
-								<div className="d-flex justify-content-start">
-									FECHA: SÁBADO 7 DE AGOSTO DE 2021
-								</div>
-							</div>
-						</div>
-
-						<Table
-							responsive
-							bordered
-							size="sm"
-							className="text-center">
-							<thead>
-								<tr>
-									<th>CANTIDAD</th>
-									<th>ARTÍCULO</th>
-									<th>PRECIO</th>
-									<th>TOTAL</th>
-								</tr>
-							</thead>
-							<tr>
-								<td>2</td>
-								<td>
-									INYECTORES PARA AUTO DIFERENTE INYECTORES
-									PARA AUTO DIFERENTE
-								</td>
-								<td>20 000</td>
-								<td>40 000</td>
-							</tr>
-						</Table>
 					</div>
 				</div>
 			</div>

@@ -3,4 +3,5 @@ ports:
     onOpen: open-browser
 tasks:
     - command: >
-        npm i vercel -g
+        npm i vercel -g && npm install
+    
