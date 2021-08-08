@@ -1,0 +1,94 @@
+<div
+						className="w-50 m-0 p-1 bg-light container-fluid "
+						style={{ visibility: "hidden" }}>
+						<div className="row">
+							<div className="col-6">
+								<div className="d-flex justify-content-start">
+									IMPORTACIONES HERRERA
+								</div>
+								<div className="d-flex justify-content-start">
+									FACTURA PROFORMA
+								</div>
+								<div className="d-flex justify-content-start">
+									PARA: PEDRO MUÑOZ
+								</div>
+								<div className="d-flex justify-content-start">
+									VEHÍCULO: NISSAN XTERRA 2000
+								</div>
+							</div>
+							<div className="col-6">
+								<div className="d-flex justify-content-start">
+									VENDEDOR: RANDALL CHACÓN
+								</div>
+								<div className="d-flex justify-content-start">
+									CONTACTO: 8367-3383
+								</div>
+								<div className="d-flex justify-content-start">
+									FECHA: {new Date().toLocaleDateString()}
+								</div>
+							</div>
+						</div>
+						<div className="row mb-0 pb-0">
+							<div className="col-12">
+								<Table
+									responsive
+									bordered
+									size="sm"
+									className="text-center mb-0 pb-0">
+									<thead>
+										<tr>
+											<th>CANTIDAD</th>
+											<th>ARTÍCULO</th>
+											<th>PRECIO</th>
+											<th>TOTAL</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>2</td>
+										<td>
+											INYECTORES PARA AUTO DIFERENTE
+											INYECTORES PARA AUTO DIFERENTE
+										</td>
+										<td>20 000</td>
+										<td>40 000</td>
+									</tr>
+									<tr>
+										<td>2</td>
+										<td>
+											INYECTORES PARA AUTO DIFERENTE
+											INYECTORES PARA AUTO DIFERENTE
+										</td>
+										<td>20 000</td>
+										<td>40 000</td>
+									</tr>
+								</Table>
+							</div>
+						</div>
+						<div className="row m-0 p-0 d-flex justify-content-end">
+							<div className="col-6 m-0 p-0">
+								<Table
+									responsive
+									bordered
+									size="sm"
+									color="dark"
+									className="text-start ">
+									<tr>
+										<td className="fw-bold">
+											<span>
+												<strong>SUBTOTAL</strong>
+											</span>
+										</td>
+										<td>50000</td>
+									</tr>
+									<tr>
+										<td className="fw-bold">
+											<span>
+												<strong>TOTAL</strong>
+											</span>
+										</td>
+										<td>2000</td>
+									</tr>
+								</Table>
+							</div>
+						</div>
+					</div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Input } from "reactstrap";
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
+import * as htmlToImage from "html-to-image";
+import download from "downloadjs";
+import { Input, Table } from "reactstrap";
 
 //create your first component
 const Home = () => {
@@ -14,7 +14,30 @@ const Home = () => {
 	const [renderedEditor, setRenderedEditor] = useState("");
 	const [renderedInvoice, setRenderedInvoice] = useState("");
 
-	const p_style = "w-100 m-0 p-0 d-flex justify-content-start";
+	const [create_image, setCreateImage] = useState("");
+
+	const onButtonClick = () => {
+		let domElement = document.getElementById("image-node");
+		htmlToImage
+			.toPng(domElement)
+			.then(function(dataUrl) {
+				setCreateImage(<img src={dataUrl}></img>);
+				download(dataUrl, name.toUpperCase() + " PROFORMA.jpeg");
+			})
+			.catch(function(error) {
+				console.error("oops, something went wrong!", error);
+			});
+	};
+
+	function restoreAll() {
+		setProduct([""]);
+		setAmount(["1"]);
+		setPrice([""]);
+		setName([""]);
+		setVehicle([""]);
+
+		createInputs();
+	}
 
 	function createInvoice() {
 		function numberWithCommas(x) {
@@ -22,25 +45,68 @@ const Home = () => {
 		}
 
 		let list_invoice = product.map((element, index) => (
-			<div key={index} className="container-fluid">
-				<span className={p_style}>{element.toUpperCase()}</span>
-
-				<span className={p_style}>
-					CANTIDAD: &nbsp;
-					{amount[index]}
-				</span>
-				<span className={p_style}>
-					PRECIO: &nbsp; &#8353;
+			<tr key={index}>
+				<td>{numberWithCommas(amount[index])}</td>
+				<td>{element.toUpperCase()}</td>
+				<td>&#8353;{numberWithCommas(price[index])}</td>
+				<td>
+					&#8353;
 					{numberWithCommas(
 						(
 							parseFloat(price[index]) * parseFloat(amount[index])
 						).toFixed(2)
 					)}
-				</span>
-				<span className={p_style}>&nbsp;</span>
-			</div>
+				</td>
+			</tr>
 		));
-		//<br className={p_style}></br>
+
+		let general_data = (
+			<div className="row">
+				<div className="col-6">
+					<div className="d-flex justify-content-start">
+						IMPORTACIONES HERRERA
+					</div>
+					<div className="d-flex justify-content-start">
+						FACTURA PROFORMA
+					</div>
+					<div className="d-flex justify-content-start">
+						PARA: {name.toLocaleUpperCase()}
+					</div>
+					<div className="d-flex justify-content-start">
+						VEHÍCULO: {vehicle.toUpperCase()}
+					</div>
+				</div>
+				<div className="col-6">
+					<div className="d-flex justify-content-start">
+						VENDEDOR: RANDALL CHACÓN
+					</div>
+					<div className="d-flex justify-content-start">
+						CONTACTO: 8367-3383
+					</div>
+					<div className="d-flex justify-content-start">
+						FECHA: {new Date().toLocaleDateString()}
+					</div>
+				</div>
+			</div>
+		);
+
+		let invoice_format = (
+			<Table
+				responsive
+				bordered
+				size="sm"
+				className="text-center mb-0 pb-0">
+				<thead>
+					<tr>
+						<th>CANTIDAD</th>
+						<th>ARTÍCULO</th>
+						<th>PRECIO</th>
+						<th>TOTAL</th>
+					</tr>
+				</thead>
+				{list_invoice}
+			</Table>
+		);
 
 		let counter = 0;
 
@@ -50,36 +116,40 @@ const Home = () => {
 
 		let final = [counter.toFixed(2)];
 
-		let final_price = (
-			<div className="container-fluid">
-				<p className={p_style}>
-					TOTAL: &nbsp; &#8353;{numberWithCommas(final)}
-				</p>
+		let final_prices_format = (
+			<div className="row m-0 p-0 d-flex justify-content-end">
+				<div className="col-6 m-0 p-0">
+					<Table
+						responsive
+						bordered
+						size="sm"
+						color="dark"
+						className="text-start ">
+						<tr>
+							<td className="fw-bold">
+								<span>
+									<strong>TOTAL</strong>
+								</span>
+							</td>
+							<td>&#8353;{numberWithCommas(final)}</td>
+						</tr>
+					</Table>
+				</div>
 			</div>
 		);
 
-		list_invoice.push(final_price);
-
-		list_invoice.unshift(
-			<div className="container-fluid">
-				<span className={p_style}>
-					PARA: &nbsp; {name.toUpperCase()}
-				</span>
-				<span className={p_style}>
-					VEHÍCULO: &nbsp; {vehicle.toUpperCase()}
-				</span>
-				<span className={p_style}>&nbsp;</span>
-			</div>
+		let message = (
+			<small>ENVÍOS A TODO EL PAÍS, PEDIDOS DE USA Y CHINA</small>
 		);
 
-		list_invoice.unshift(
-			<div className="container-fluid">
-				<p className={p_style}>&nbsp;</p>
-				<p className={p_style}>FACTURA PROFORMA</p>
-			</div>
-		);
+		let result = [
+			general_data,
+			invoice_format,
+			final_prices_format,
+			message
+		];
 
-		setRenderedInvoice(list_invoice);
+		setRenderedInvoice(<div className="bg-light p-2">{result}</div>);
 	}
 
 	function editProduct(e, index) {
@@ -187,8 +257,17 @@ const Home = () => {
 	return (
 		<div className="text-center mt-5">
 			<div className="row container-fluid d-flex justify-content-center">
-				<div className="col-10" id="container_bg">
-					<h1>PROFORMAS</h1>
+				<div className="col-11" id="container_bg">
+					<div className="row d-flex justify-content-between">
+						<h1>PROFORMAS</h1>
+						&nbsp;
+						<button
+							className="btn btn-info"
+							onClick={() => onButtonClick()}>
+							<span className="h2">CREAR IMAGEN</span>
+						</button>
+					</div>
+
 					<hr></hr>
 					<div className="row p-1">
 						<div className="row col-xl-6 col-lg-6 col-md-8 col-sm-12">
@@ -257,12 +336,19 @@ const Home = () => {
 							</div>
 						</div>
 						<div className="row col-xl-6 col-lg-6 col-md-4 col-sm-12 ">
-							<div className="border border-dark m-1">
-								{renderedInvoice}
+							<div className="m-1 p-1 w-100">
+								<div
+									className="m-0 p-0 bg-light container"
+									id="image-node">
+									{renderedInvoice}
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+			<div className="row d-flex justify-content-center">
+				{create_image}
 			</div>
 		</div>
 	);
