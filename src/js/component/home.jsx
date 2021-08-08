@@ -22,7 +22,7 @@ const Home = () => {
 			.toPng(domElement)
 			.then(function(dataUrl) {
 				setCreateImage(<img src={dataUrl}></img>);
-				download(dataUrl, "image.jpeg");
+				download(dataUrl, name.toUpperCase() + " PROFORMA.jpeg");
 			})
 			.catch(function(error) {
 				console.error("oops, something went wrong!", error);
@@ -128,14 +128,6 @@ const Home = () => {
 						<tr>
 							<td className="fw-bold">
 								<span>
-									<strong>SUBTOTAL</strong>
-								</span>
-							</td>
-							<td>&#8353;{numberWithCommas(final)}</td>
-						</tr>
-						<tr>
-							<td className="fw-bold">
-								<span>
 									<strong>TOTAL</strong>
 								</span>
 							</td>
@@ -146,7 +138,16 @@ const Home = () => {
 			</div>
 		);
 
-		let result = [general_data, invoice_format, final_prices_format];
+		let message = (
+			<small>ENVÍOS A TODO EL PAÍS, PEDIDOS DE USA Y CHINA</small>
+		);
+
+		let result = [
+			general_data,
+			invoice_format,
+			final_prices_format,
+			message
+		];
 
 		setRenderedInvoice(<div className="bg-light p-2">{result}</div>);
 	}
