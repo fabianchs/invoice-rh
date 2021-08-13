@@ -139,7 +139,7 @@ const Home = () => {
 		);
 
 		let message = (
-			<small>ENVÍOS A TODO EL PAÍS, PEDIDOS DE USA Y CHINA</small>
+			<small>REALIZAMOS ENVÍOS A TODO EL PAÍS</small>
 		);
 
 		let result = [
