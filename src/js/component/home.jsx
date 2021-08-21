@@ -249,7 +249,7 @@ const Home = () => {
 			<div
 				key={index}
 				className="row container-fluid d-flex justify-content-between">
-				<div className="col-6 p-1">
+				<div className="col-7 p-1">
 					<Input
 						type="text"
 						name="text"
@@ -259,7 +259,7 @@ const Home = () => {
 						onChange={() => editProduct(event, index)}
 					/>
 				</div>
-				<div className="col-3 p-1">
+				<div className="col-2 p-1">
 					<Input
 						type="text"
 						name="text"
@@ -336,8 +336,8 @@ const Home = () => {
 								</div>
 							</div>
 							<div className="row container-fluid d-flex justify-content-between">
-								<div className="h5 col-6">Producto</div>
-								<div className="h5 col-3">Cantidad</div>
+								<div className="h5 col-7">Producto</div>
+								<div className="h5 col-2">Cantidad</div>
 								<div className="h5 col-3">Precio Unitario</div>
 							</div>
 							{renderedEditor}
