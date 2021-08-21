@@ -10,6 +10,7 @@ const Home = () => {
 	const [price, setPrice] = useState([""]);
 	const [name, setName] = useState("");
 	const [vehicle, setVehicle] = useState("");
+	const [iva, setIva] = useState([false, "Sin iva"]);
 
 	const [renderedEditor, setRenderedEditor] = useState("");
 	const [renderedInvoice, setRenderedInvoice] = useState("");
@@ -98,7 +99,7 @@ const Home = () => {
 				className="text-center mb-0 pb-0">
 				<thead>
 					<tr>
-						<th>CANTIDAD</th>
+						<th>CANT</th>
 						<th>ARTÍCULO</th>
 						<th>PRECIO</th>
 						<th>TOTAL</th>
@@ -116,6 +117,34 @@ const Home = () => {
 
 		let final = [counter.toFixed(2)];
 
+		let iva_info = [];
+
+		if (iva[0] === true) {
+			iva_info.push(
+				<tr>
+					<td className="fw-bold">
+						<span>
+							<strong>SUBTOTAL</strong>
+						</span>
+					</td>
+					<td>&#8353;{numberWithCommas(final)}</td>
+				</tr>
+			);
+			iva_info.push(
+				<tr>
+					<td className="fw-bold">
+						<span>
+							<strong>IVA 13%</strong>
+						</span>
+					</td>
+					<td>
+						&#8353;{numberWithCommas((final * 0.13).toFixed(2))}
+					</td>
+				</tr>
+			);
+			final = numberWithCommas((final * 1.13).toFixed(2));
+		}
+
 		let final_prices_format = (
 			<div className="row m-0 p-0 d-flex justify-content-end">
 				<div className="col-6 m-0 p-0">
@@ -125,6 +154,7 @@ const Home = () => {
 						size="sm"
 						color="dark"
 						className="text-start ">
+						{iva_info}
 						<tr>
 							<td className="fw-bold">
 								<span>
@@ -138,9 +168,7 @@ const Home = () => {
 			</div>
 		);
 
-		let message = (
-			<small>REALIZAMOS ENVÍOS A TODO EL PAÍS</small>
-		);
+		let message = <small>REALIZAMOS ENVÍOS A TODO EL PAÍS</small>;
 
 		let result = [
 			general_data,
@@ -150,6 +178,14 @@ const Home = () => {
 		];
 
 		setRenderedInvoice(<div className="bg-light p-2">{result}</div>);
+	}
+
+	function editIvaStatus() {
+		if (iva[0] === false) {
+			setIva([true, "Con IVA"]);
+		} else {
+			setIva([false, "Sin IVA"]);
+		}
 	}
 
 	function editProduct(e, index) {
@@ -215,7 +251,7 @@ const Home = () => {
 			<div
 				key={index}
 				className="row container-fluid d-flex justify-content-between">
-				<div className="col-6 p-1">
+				<div className="col-7 p-1">
 					<Input
 						type="text"
 						name="text"
@@ -225,7 +261,7 @@ const Home = () => {
 						onChange={() => editProduct(event, index)}
 					/>
 				</div>
-				<div className="col-3 p-1">
+				<div className="col-2 p-1">
 					<Input
 						type="text"
 						name="text"
@@ -302,8 +338,8 @@ const Home = () => {
 								</div>
 							</div>
 							<div className="row container-fluid d-flex justify-content-between">
-								<div className="h5 col-6">Producto</div>
-								<div className="h5 col-3">Cantidad</div>
+								<div className="h5 col-7">Producto</div>
+								<div className="h5 col-2">Cantidad</div>
 								<div className="h5 col-3">Precio Unitario</div>
 							</div>
 							{renderedEditor}
@@ -315,6 +351,12 @@ const Home = () => {
 											className="btn btn-secondary"
 											onClick={() => createInvoice()}>
 											Generar
+										</button>
+										&nbsp;
+										<button
+											className="btn btn-primary"
+											onClick={() => editIvaStatus()}>
+											{iva[1]}
 										</button>
 									</span>
 
