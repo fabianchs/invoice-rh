@@ -137,7 +137,9 @@ const Home = () => {
 							<strong>IVA 13%</strong>
 						</span>
 					</td>
-					<td>&#8353;{numberWithCommas(final * 0.13)}</td>
+					<td>
+						&#8353;{numberWithCommas((final * 0.13).toFixed(2))}
+					</td>
 				</tr>
 			);
 			final = numberWithCommas((final * 1.13).toFixed(2));
