@@ -99,7 +99,7 @@ const Home = () => {
 				className="text-center mb-0 pb-0">
 				<thead>
 					<tr>
-						<th>CANTIDAD</th>
+						<th>CANT</th>
 						<th>ARTÍCULO</th>
 						<th>PRECIO</th>
 						<th>TOTAL</th>
@@ -117,6 +117,32 @@ const Home = () => {
 
 		let final = [counter.toFixed(2)];
 
+		let iva_info = [];
+
+		if (iva[0] === true) {
+			iva_info.push(
+				<tr>
+					<td className="fw-bold">
+						<span>
+							<strong>SUBTOTAL</strong>
+						</span>
+					</td>
+					<td>&#8353;{numberWithCommas(final)}</td>
+				</tr>
+			);
+			iva_info.push(
+				<tr>
+					<td className="fw-bold">
+						<span>
+							<strong>IVA 13%</strong>
+						</span>
+					</td>
+					<td>&#8353;{numberWithCommas(final * 0.13)}</td>
+				</tr>
+			);
+			final = numberWithCommas((final * 1.13).toFixed(2));
+		}
+
 		let final_prices_format = (
 			<div className="row m-0 p-0 d-flex justify-content-end">
 				<div className="col-6 m-0 p-0">
@@ -126,6 +152,7 @@ const Home = () => {
 						size="sm"
 						color="dark"
 						className="text-start ">
+						{iva_info}
 						<tr>
 							<td className="fw-bold">
 								<span>
