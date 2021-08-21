@@ -10,6 +10,7 @@ const Home = () => {
 	const [price, setPrice] = useState([""]);
 	const [name, setName] = useState("");
 	const [vehicle, setVehicle] = useState("");
+	const [iva, setIva] = useState([false, "Sin iva"]);
 
 	const [renderedEditor, setRenderedEditor] = useState("");
 	const [renderedInvoice, setRenderedInvoice] = useState("");
@@ -138,9 +139,7 @@ const Home = () => {
 			</div>
 		);
 
-		let message = (
-			<small>REALIZAMOS ENVÍOS A TODO EL PAÍS</small>
-		);
+		let message = <small>REALIZAMOS ENVÍOS A TODO EL PAÍS</small>;
 
 		let result = [
 			general_data,
@@ -150,6 +149,14 @@ const Home = () => {
 		];
 
 		setRenderedInvoice(<div className="bg-light p-2">{result}</div>);
+	}
+
+	function editIvaStatus() {
+		if (iva[0] === false) {
+			setIva([true, "Con IVA"]);
+		} else {
+			setIva([false, "Sin IVA"]);
+		}
 	}
 
 	function editProduct(e, index) {
@@ -315,6 +322,12 @@ const Home = () => {
 											className="btn btn-secondary"
 											onClick={() => createInvoice()}>
 											Generar
+										</button>
+										&nbsp;
+										<button
+											className="btn btn-primary"
+											onClick={() => editIvaStatus()}>
+											{iva[1]}
 										</button>
 									</span>
 
