@@ -65,7 +65,7 @@ const Home = () => {
 			<div className="row">
 				<div className="col-6">
 					<div className="d-flex justify-content-start">
-						IMPORTACIONES HERRERA
+						HERRERA AUTOPARTS
 					</div>
 					<div className="d-flex justify-content-start">
 						FACTURA PROFORMA
