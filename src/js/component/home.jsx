@@ -11,6 +11,7 @@ const Home = () => {
 	const [name, setName] = useState("");
 	const [vehicle, setVehicle] = useState("");
 	const [iva, setIva] = useState([false, "Sin iva"]);
+	const [currency, setCurrency] = useState(["₡", "COLONES"]);
 
 	const [renderedEditor, setRenderedEditor] = useState("");
 	const [renderedInvoice, setRenderedInvoice] = useState("");
@@ -49,9 +50,12 @@ const Home = () => {
 			<tr key={index}>
 				<td>{numberWithCommas(amount[index])}</td>
 				<td>{element.toUpperCase()}</td>
-				<td>&#8353;{numberWithCommas(price[index])}</td>
 				<td>
-					&#8353;
+					{currency[0]}
+					{numberWithCommas(price[index])}
+				</td>
+				<td>
+					{currency[0]}
 					{numberWithCommas(
 						(
 							parseFloat(price[index]) * parseFloat(amount[index])
@@ -86,6 +90,9 @@ const Home = () => {
 					</div>
 					<div className="d-flex justify-content-start">
 						FECHA: {new Date().toLocaleDateString()}
+					</div>
+					<div className="d-flex justify-content-start">
+						MONEDA: {currency[1]}
 					</div>
 				</div>
 			</div>
@@ -127,7 +134,10 @@ const Home = () => {
 							<strong>SUBTOTAL</strong>
 						</span>
 					</td>
-					<td>&#8353;{numberWithCommas(final)}</td>
+					<td>
+						{currency[0]}
+						{numberWithCommas(final)}
+					</td>
 				</tr>
 			);
 			iva_info.push(
@@ -138,7 +148,8 @@ const Home = () => {
 						</span>
 					</td>
 					<td>
-						&#8353;{numberWithCommas((final * 0.13).toFixed(2))}
+						{currency[0]}
+						{numberWithCommas((final * 0.13).toFixed(2))}
 					</td>
 				</tr>
 			);
@@ -161,7 +172,10 @@ const Home = () => {
 									<strong>TOTAL</strong>
 								</span>
 							</td>
-							<td>&#8353;{numberWithCommas(final)}</td>
+							<td>
+								{currency[0]}
+								{numberWithCommas(final)}
+							</td>
 						</tr>
 					</Table>
 				</div>
@@ -185,6 +199,14 @@ const Home = () => {
 			setIva([true, "Con IVA"]);
 		} else {
 			setIva([false, "Sin IVA"]);
+		}
+	}
+
+	function editCurrencyStatus() {
+		if (currency[1] == "COLONES") {
+			setCurrency(["$", "DÓLARES"]);
+		} else {
+			setCurrency(["₡", "COLONES"]);
 		}
 	}
 
@@ -357,6 +379,14 @@ const Home = () => {
 											className="btn btn-primary"
 											onClick={() => editIvaStatus()}>
 											{iva[1]}
+										</button>
+										&nbsp;
+										<button
+											className="btn btn-success"
+											onClick={() =>
+												editCurrencyStatus()
+											}>
+											{currency[1]}
 										</button>
 									</span>
 
