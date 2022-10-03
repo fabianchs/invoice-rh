@@ -11,7 +11,7 @@ const Home = () => {
 	const [name, setName] = useState("");
 	const [vehicle, setVehicle] = useState("");
 	const [iva, setIva] = useState([false, "Sin iva"]);
-	const [currency, setCurrency] = useState(["₡", "Colones"]);
+	const [currency, setCurrency] = useState(["₡", "COLONES"]);
 
 	const [renderedEditor, setRenderedEditor] = useState("");
 	const [renderedInvoice, setRenderedInvoice] = useState("");
@@ -90,6 +90,9 @@ const Home = () => {
 					</div>
 					<div className="d-flex justify-content-start">
 						FECHA: {new Date().toLocaleDateString()}
+					</div>
+					<div className="d-flex justify-content-start">
+						MONEDA: {currency[1]}
 					</div>
 				</div>
 			</div>
@@ -200,10 +203,10 @@ const Home = () => {
 	}
 
 	function editCurrencyStatus() {
-		if (currency[1] == "Colones") {
-			setCurrency(["$", "Dólares"]);
+		if (currency[1] == "COLONES") {
+			setCurrency(["$", "DÓLARES"]);
 		} else {
-			setCurrency(["₡", "Colones"]);
+			setCurrency(["₡", "COLONES"]);
 		}
 	}
 
