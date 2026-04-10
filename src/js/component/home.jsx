@@ -18,6 +18,109 @@ const Home = () => {
 
 	const [create_image, setCreateImage] = useState("");
 
+	const importCSV = (e) => {
+		const file = e.target.files[0];
+		if (!file) return;
+
+		const reader = new FileReader();
+		reader.onload = (event) => {
+			try {
+				const csv = event.target.result;
+				const lines = csv.split("\n").filter(line => line.trim() !== "");
+				
+				// Variables para almacenar los datos parseados
+				let importedName = "";
+				let importedVehicle = "";
+				let importedIva = [false, "Sin iva"];
+				let importedCurrency = ["₡", "COLONES"];
+				let importedProducts = [""];
+				let importedAmounts = ["1"];
+				let importedPrices = [""];
+				
+				// Buscar información del cliente (antes de la tabla)
+				let dataStartIndex = 0;
+				for (let i = 0; i < lines.length; i++) {
+					const line = lines[i];
+					if (line.includes("PARA:")) {
+						const parts = line.split(",");
+						importedName = parts[1]?.trim() || "";
+					}
+					if (line.includes("VEHÍCULO:")) {
+						const parts = line.split(",");
+						importedVehicle = parts[1]?.trim() || "";
+					}
+					if (line.includes("MONEDA:")) {
+						const parts = line.split(",");
+						const currency = parts[1]?.trim() || "";
+						if (currency === "DÓLARES") {
+							importedCurrency = ["$", "DÓLARES"];
+						}
+					}
+					// Encontrar donde empieza la tabla de productos
+					if (line.includes("CANTIDAD,ARTÍCULO")) {
+						dataStartIndex = i + 1;
+						break;
+					}
+				}
+				
+				// Parsear los productos
+				importedProducts = [];
+				importedAmounts = [];
+				importedPrices = [];
+				
+				for (let i = dataStartIndex; i < lines.length; i++) {
+					const line = lines[i].trim();
+					if (!line || line.includes("SUBTOTAL") || line.includes("IVA") || line.includes("TOTAL")) {
+						// Verificar si hay IVA en los datos
+						if (line.includes("IVA 13%")) {
+							importedIva = [true, "Con IVA"];
+						}
+						continue;
+					}
+					
+					const parts = line.split(",");
+					if (parts.length >= 4) {
+						const qty = parts[0].trim();
+						const product = parts[1].trim();
+						const price = parts[2].trim();
+						
+						if (product && qty && price) {
+							importedProducts.push(product);
+							importedAmounts.push(qty);
+							importedPrices.push(price);
+						}
+					}
+				}
+				
+				// Si no hay productos, inicializar con uno vacío
+				if (importedProducts.length === 0) {
+					importedProducts = [""];
+					importedAmounts = ["1"];
+					importedPrices = [""];
+				}
+				
+				// Actualizar el estado
+				setName(importedName);
+				setVehicle(importedVehicle);
+				setProduct(importedProducts);
+				setAmount(importedAmounts);
+				setPrice(importedPrices);
+				setIva(importedIva);
+				setCurrency(importedCurrency);
+				
+				// Limpiar el input para permitir importar el mismo archivo nuevamente
+				e.target.value = "";
+				
+				console.log("CSV importado correctamente");
+			} catch (error) {
+				console.error("Error al importar CSV:", error);
+				alert("Error al importar el CSV. Verifica que el formato sea correcto.");
+				e.target.value = "";
+			}
+		};
+		reader.readAsText(file);
+	};
+
 	const generateCSV = () => {
 		let csvContent = "data:text/csv;charset=utf-8,";
 		
@@ -374,11 +477,25 @@ const Home = () => {
 					<div className="row d-flex justify-content-between">
 						<h1>PROFORMAS</h1>
 						&nbsp;
-						<button
-							className="btn btn-info"
-							onClick={() => onButtonClick()}>
-							<span className="h2">CREAR IMAGEN</span>
-						</button>
+						<div>
+							<button
+								className="btn btn-warning me-2"
+								onClick={() => document.getElementById("csv-input").click()}>
+								<span className="h6">📥 IMPORTAR CSV</span>
+							</button>
+							<input
+								id="csv-input"
+								type="file"
+								accept=".csv"
+								style={{ display: "none" }}
+								onChange={importCSV}
+							/>
+							<button
+								className="btn btn-info"
+								onClick={() => onButtonClick()}>
+								<span className="h2">CREAR IMAGEN</span>
+							</button>
+						</div>
 					</div>
 
 					<hr></hr>
