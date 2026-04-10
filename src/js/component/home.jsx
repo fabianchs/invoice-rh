@@ -115,9 +115,6 @@ const Home = () => {
 				setIva(importedIva);
 				setCurrency(importedCurrency);
 				
-				// Regenerar la vista de la proforma
-				setTimeout(() => createInvoice(), 100);
-				
 				// Limpiar el input usando la referencia guardada
 				if (inputElement) {
 					inputElement.value = "";
@@ -195,8 +192,6 @@ const Home = () => {
 			.then(function(dataUrl) {
 				setCreateImage(<img src={dataUrl}></img>);
 				download(dataUrl, name.toUpperCase() + " PROFORMA.jpeg");
-				// Descargar el CSV junto con la imagen
-				setTimeout(() => generateCSV(), 500);
 			})
 			.catch(function(error) {
 				console.error("oops, something went wrong!", error);
@@ -501,13 +496,11 @@ const Home = () => {
 								onClick={() => document.getElementById("csv-input").click()}>
 								<span className="h6">📥 IMPORTAR CSV</span>
 							</button>
-							<input
-								id="csv-input"
-								type="file"
-								accept=".csv"
-								style={{ display: "none" }}
-								onChange={importCSV}
-							/>
+							<button
+								className="btn btn-success me-2"
+								onClick={() => generateCSV()}>
+								<span className="h6">📊 GENERAR CSV</span>
+							</button>
 							<button
 								className="btn btn-info"
 								onClick={() => onButtonClick()}>
