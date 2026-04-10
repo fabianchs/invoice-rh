@@ -18,6 +18,59 @@ const Home = () => {
 
 	const [create_image, setCreateImage] = useState("");
 
+	const generateCSV = () => {
+		let csvContent = "data:text/csv;charset=utf-8,";
+		
+		// Encabezado
+		csvContent += "HERRERA AUTOPARTS\n";
+		csvContent += "FACTURA PROFORMA\n";
+		csvContent += "\n";
+		
+		// Información del cliente
+		csvContent += "PARA:," + name.toUpperCase() + "\n";
+		csvContent += "VEHÍCULO:," + vehicle.toUpperCase() + "\n";
+		csvContent += "VENDEDOR:,RANDALL CHACÓN\n";
+		csvContent += "CONTACTO:,8367-3383\n";
+		csvContent += "FECHA:," + new Date().toLocaleDateString() + "\n";
+		csvContent += "MONEDA:," + currency[1] + "\n";
+		csvContent += "\n";
+		
+		// Tabla de productos
+		csvContent += "CANTIDAD,ARTÍCULO,PRECIO UNITARIO,TOTAL\n";
+		
+		let totalAmount = 0;
+		product.forEach((element, index) => {
+			const unitPrice = parseFloat(price[index]) || 0;
+			const qty = parseFloat(amount[index]) || 0;
+			const rowTotal = (unitPrice * qty).toFixed(2);
+			totalAmount += parseFloat(rowTotal);
+			
+			csvContent += qty + "," + element.toUpperCase() + "," + unitPrice.toFixed(2) + "," + rowTotal + "\n";
+		});
+		
+		csvContent += "\n";
+		
+		// Totales
+		if (iva[0] === true) {
+			const ivaAmount = (totalAmount * 0.13).toFixed(2);
+			const finalTotal = (totalAmount * 1.13).toFixed(2);
+			csvContent += "SUBTOTAL,," + totalAmount.toFixed(2) + "\n";
+			csvContent += "IVA 13%,," + ivaAmount + "\n";
+			csvContent += "TOTAL,," + finalTotal + "\n";
+		} else {
+			csvContent += "TOTAL,," + totalAmount.toFixed(2) + "\n";
+		}
+		
+		// Descargar el CSV
+		const encodedUri = encodeURI(csvContent);
+		const link = document.createElement("a");
+		link.setAttribute("href", encodedUri);
+		link.setAttribute("download", name.toUpperCase() + " PROFORMA.csv");
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	};
+
 	const onButtonClick = () => {
 		let domElement = document.getElementById("image-node");
 		htmlToImage
@@ -25,6 +78,8 @@ const Home = () => {
 			.then(function(dataUrl) {
 				setCreateImage(<img src={dataUrl}></img>);
 				download(dataUrl, name.toUpperCase() + " PROFORMA.jpeg");
+				// Descargar el CSV junto con la imagen
+				setTimeout(() => generateCSV(), 500);
 			})
 			.catch(function(error) {
 				console.error("oops, something went wrong!", error);
