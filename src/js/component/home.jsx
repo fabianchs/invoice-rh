@@ -26,68 +26,72 @@ const Home = () => {
 		reader.onload = (event) => {
 			try {
 				const csv = event.target.result;
-				const lines = csv.split("\n").filter(line => line.trim() !== "");
+				const lines = csv.split("\n");
 				
 				// Variables para almacenar los datos parseados
 				let importedName = "";
 				let importedVehicle = "";
 				let importedIva = [false, "Sin iva"];
 				let importedCurrency = ["₡", "COLONES"];
-				let importedProducts = [""];
-				let importedAmounts = ["1"];
-				let importedPrices = [""];
+				let importedProducts = [];
+				let importedAmounts = [];
+				let importedPrices = [];
 				
-				// Buscar información del cliente (antes de la tabla)
+				// Buscar información del cliente
 				let dataStartIndex = 0;
 				for (let i = 0; i < lines.length; i++) {
-					const line = lines[i];
-					if (line.includes("PARA:")) {
-						const parts = line.split(",");
-						importedName = parts[1]?.trim() || "";
+					const line = lines[i].trim();
+					
+					if (line.startsWith("PARA,")) {
+						const value = line.substring(5).trim();
+						importedName = value || "";
 					}
-					if (line.includes("VEHÍCULO:")) {
-						const parts = line.split(",");
-						importedVehicle = parts[1]?.trim() || "";
+					if (line.startsWith("VEHÍCULO,")) {
+						const value = line.substring(9).trim();
+						importedVehicle = value || "";
 					}
-					if (line.includes("MONEDA:")) {
-						const parts = line.split(",");
-						const currency = parts[1]?.trim() || "";
-						if (currency === "DÓLARES") {
+					if (line.startsWith("MONEDA,")) {
+						const value = line.substring(7).trim();
+						if (value === "DÓLARES") {
 							importedCurrency = ["$", "DÓLARES"];
 						}
 					}
+					
 					// Encontrar donde empieza la tabla de productos
-					if (line.includes("CANTIDAD,ARTÍCULO")) {
+					if (line.startsWith("CANTIDAD,")) {
 						dataStartIndex = i + 1;
 						break;
 					}
 				}
 				
 				// Parsear los productos
-				importedProducts = [];
-				importedAmounts = [];
-				importedPrices = [];
-				
-				for (let i = dataStartIndex; i < lines.length; i++) {
-					const line = lines[i].trim();
-					if (!line || line.includes("SUBTOTAL") || line.includes("IVA") || line.includes("TOTAL")) {
-						// Verificar si hay IVA en los datos
-						if (line.includes("IVA 13%")) {
-							importedIva = [true, "Con IVA"];
-						}
-						continue;
-					}
-					
-					const parts = line.split(",");
-					if (parts.length >= 4) {
-						const qty = parts[0].trim();
-						const product = parts[1].trim();
-						const price = parts[2].trim();
+				if (dataStartIndex > 0) {
+					for (let i = dataStartIndex; i < lines.length; i++) {
+						const line = lines[i].trim();
+						if (!line) continue; // Saltar líneas vacías
 						
-						if (product && qty && price) {
-							importedProducts.push(product);
-							importedAmounts.push(qty);
-							importedPrices.push(price);
+						// Detener cuando llegamos a los totales
+						if (line.startsWith("SUBTOTAL") || line.startsWith("IVA") || line.startsWith("TOTAL")) {
+							if (line.startsWith("IVA 13%")) {
+								importedIva = [true, "Con IVA"];
+							}
+							continue;
+						}
+						
+						const parts = line.split(",");
+						
+						// Validar que tenga al menos cantidad, product, price
+						if (parts.length >= 3) {
+							const qty = parts[0].trim();
+							const product = parts[1].trim();
+							const price = parts[2].trim();
+							
+							// Validar que sean valores numéricos válidos
+							if (product && !isNaN(qty) && !isNaN(price) && qty !== "" && price !== "") {
+								importedProducts.push(product);
+								importedAmounts.push(qty);
+								importedPrices.push(price);
+							}
 						}
 					}
 				}
@@ -111,7 +115,7 @@ const Home = () => {
 				// Limpiar el input para permitir importar el mismo archivo nuevamente
 				e.target.value = "";
 				
-				console.log("CSV importado correctamente");
+				console.log("CSV importado correctamente", { importedName, importedVehicle, importedProducts, importedAmounts, importedPrices });
 			} catch (error) {
 				console.error("Error al importar CSV:", error);
 				alert("Error al importar el CSV. Verifica que el formato sea correcto.");
