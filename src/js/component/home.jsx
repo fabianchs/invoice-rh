@@ -45,15 +45,16 @@ const Home = () => {
 					const line = lines[i].trim();
 					
 					if (line.startsWith("PARA:")) {
-						const value = line.substring(5).trim();
-						importedName = value || "";
+						const parts = line.split(",");
+						importedName = parts[1]?.trim() || "";
 					}
 					if (line.startsWith("VEHÍCULO:")) {
-						const value = line.substring(9).trim();
-						importedVehicle = value || "";
+						const parts = line.split(",");
+						importedVehicle = parts[1]?.trim() || "";
 					}
 					if (line.startsWith("MONEDA:")) {
-						const value = line.substring(7).trim();
+						const parts = line.split(",");
+						const value = parts[1]?.trim() || "";
 						if (value === "DÓLARES") {
 							importedCurrency = ["$", "DÓLARES"];
 						}
