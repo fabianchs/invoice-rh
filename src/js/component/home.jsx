@@ -85,15 +85,15 @@ const Home = () => {
 						
 						// Validar que tenga al menos cantidad, product, price
 						if (parts.length >= 3) {
-							const qty = parts[0].trim();
+							const qty = parseFloat(parts[0].trim()) || 0;
 							const product = parts[1].trim();
-							const price = parts[2].trim();
+							const price = parseFloat(parts[2].trim()) || 0;
 							
-							// Validar que sean valores numéricos válidos
-							if (product && !isNaN(qty) && !isNaN(price) && qty !== "" && price !== "") {
+							// Validar que el producto no esté vacío
+							if (product && product.trim() !== "") {
 								importedProducts.push(product);
-								importedAmounts.push(qty);
-								importedPrices.push(price);
+								importedAmounts.push(qty.toString());
+								importedPrices.push(price.toString());
 							}
 						}
 					}
@@ -218,24 +218,26 @@ const Home = () => {
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 
-		let list_invoice = product.map((element, index) => (
-			<tr key={index}>
-				<td>{numberWithCommas(amount[index])}</td>
-				<td>{element.toUpperCase()}</td>
-				<td>
-					{currency[0]}
-					{numberWithCommas(price[index])}
-				</td>
-				<td>
-					{currency[0]}
-					{numberWithCommas(
-						(
-							parseFloat(price[index]) * parseFloat(amount[index])
-						).toFixed(2)
-					)}
-				</td>
-			</tr>
-		));
+		let list_invoice = product.map((element, index) => {
+			const qty = parseFloat(amount[index]) || 0;
+			const prc = parseFloat(price[index]) || 0;
+			const total = (qty * prc).toFixed(2);
+			
+			return (
+				<tr key={index}>
+					<td>{numberWithCommas(qty.toString())}</td>
+					<td>{element.toUpperCase()}</td>
+					<td>
+						{currency[0]}
+						{numberWithCommas(prc.toString())}
+					</td>
+					<td>
+						{currency[0]}
+						{numberWithCommas(total)}
+					</td>
+				</tr>
+			);
+		});
 
 		let general_data = (
 			<div className="row">
@@ -291,7 +293,9 @@ const Home = () => {
 		let counter = 0;
 
 		for (let i = 0; i < product.length; i++) {
-			counter = counter + parseFloat(amount[i]) * parseFloat(price[i]);
+			const qty = parseFloat(amount[i]) || 0;
+			const prc = parseFloat(price[i]) || 0;
+			counter = counter + (qty * prc);
 		}
 
 		let final = [counter.toFixed(2)];
