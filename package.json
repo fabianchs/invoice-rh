@@ -7,8 +7,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "webpack-dev-server --mode development --hot --port 3000",
-		"build": "webpack --mode development",
+		"start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server --mode development --hot --port 3000",
+		"build": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack --mode development",
 		"deploy:github": "node deploy-to-github.js"
 	},
 	"author": "Alejandro Sanchez",
@@ -25,6 +25,7 @@
 		"babel-loader": "^8.2.2",
 		"babel-plugin-transform-class-properties": "^6.24.1",
 		"bc-console": "0.0.2",
+		"cross-env": "^10.1.0",
 		"css-loader": "^2.1.1",
 		"error-overlay-webpack-plugin": "^0.4.2",
 		"eslint": "^4.19.1",
