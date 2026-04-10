@@ -478,7 +478,7 @@ const Home = () => {
 	}
 	useEffect(() => {
 		createInputs();
-	}, []);
+	}, [product, amount, price]);
 
 	return (
 		<div className="text-center mt-5">
