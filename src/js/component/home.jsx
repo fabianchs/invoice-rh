@@ -20,6 +20,8 @@ const Home = () => {
 
 	const importCSV = (e) => {
 		const file = e.target.files[0];
+		const inputElement = e.target; // Guardar referencia antes de que se recicle el evento
+		
 		if (!file) return;
 
 		const reader = new FileReader();
@@ -112,14 +114,18 @@ const Home = () => {
 				setIva(importedIva);
 				setCurrency(importedCurrency);
 				
-				// Limpiar el input para permitir importar el mismo archivo nuevamente
-				e.target.value = "";
+				// Limpiar el input usando la referencia guardada
+				if (inputElement) {
+					inputElement.value = "";
+				}
 				
 				console.log("CSV importado correctamente", { importedName, importedVehicle, importedProducts, importedAmounts, importedPrices });
 			} catch (error) {
 				console.error("Error al importar CSV:", error);
 				alert("Error al importar el CSV. Verifica que el formato sea correcto.");
-				e.target.value = "";
+				if (inputElement) {
+					inputElement.value = "";
+				}
 			}
 		};
 		reader.readAsText(file);
