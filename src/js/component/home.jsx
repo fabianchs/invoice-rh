@@ -115,6 +115,9 @@ const Home = () => {
 				setIva(importedIva);
 				setCurrency(importedCurrency);
 				
+				// Regenerar la vista de la proforma
+				setTimeout(() => createInvoice(), 100);
+				
 				// Limpiar el input usando la referencia guardada
 				if (inputElement) {
 					inputElement.value = "";
