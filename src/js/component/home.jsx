@@ -577,13 +577,13 @@ const Home = () => {
 										<button
 											className="btn btn-success"
 											onClick={() => addToArrays()}>
-											<i className="fas fa-plus"></i>
+											<i className="fas fa-plus"></i> +
 										</button>
 										&nbsp;
 										<button
 											className="btn btn-danger"
 											onClick={() => deleteFromArrays()}>
-											<i className="fas fa-minus"></i>
+											<i className="fas fa-minus"></i> −
 										</button>
 									</span>
 								</div>
