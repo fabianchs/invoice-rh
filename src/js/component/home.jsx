@@ -44,15 +44,15 @@ const Home = () => {
 				for (let i = 0; i < lines.length; i++) {
 					const line = lines[i].trim();
 					
-					if (line.startsWith("PARA,")) {
+					if (line.startsWith("PARA:")) {
 						const value = line.substring(5).trim();
 						importedName = value || "";
 					}
-					if (line.startsWith("VEHÍCULO,")) {
+					if (line.startsWith("VEHÍCULO:")) {
 						const value = line.substring(9).trim();
 						importedVehicle = value || "";
 					}
-					if (line.startsWith("MONEDA,")) {
+					if (line.startsWith("MONEDA:")) {
 						const value = line.substring(7).trim();
 						if (value === "DÓLARES") {
 							importedCurrency = ["$", "DÓLARES"];
